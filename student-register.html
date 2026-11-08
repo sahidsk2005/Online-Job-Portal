@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration – CareerConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-navy">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">CareerConnect</a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-outline-light btn-sm btn-rounded me-2">Home</a>
+                <a href="student-login.html" class="btn btn-light btn-sm btn-rounded">Student Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card auth-card">
+                    <div class="auth-header">
+                        <h3 class="fw-bold mb-1">Student / Job Seeker Registration</h3>
+                        <p class="small mb-0 opacity-75">Create your profile and upload your PDF resume to apply for
+                            jobs</p>
+                    </div>
+                    <div class="card-body p-4 p-md-5 bg-white">
+                        <div id="errorAlert" class="alert alert-danger d-none"></div>
+
+                        <form id="studentRegForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Full Name *</label>
+                                    <input type="text" id="fullName" class="form-control" required
+                                        placeholder="Enter full name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Email Address *</label>
+                                    <input type="email" id="email" class="form-control" required
+                                        placeholder="student@example.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Mobile Number (10 digits) *</label>
+                                    <input type="tel" id="mobile" class="form-control" pattern="[0-9]{10}" required
+                                        placeholder="9876543210">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Date of Birth *</label>
+                                    <input type="date" id="dob" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Password *</label>
+                                    <div class="input-group">
+                                        <input type="password" id="password" class="form-control" minlength="6" required
+                                            placeholder="Min 6 characters">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="togglePassword('password', this)">Show</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Confirm Password *</label>
+                                    <div class="input-group">
+                                        <input type="password" id="confirmPassword" class="form-control" minlength="6"
+                                            required placeholder="Re-enter password">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="togglePassword('confirmPassword', this)">Show</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Gender *</label>
+                                    <select id="gender" class="form-select" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Qualification *</label>
+                                    <input type="text" id="qualification" class="form-control" required
+                                        placeholder="e.g. BCA, B.Tech, MCA">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">College Name *</label>
+                                    <input type="text" id="college" class="form-control" required
+                                        placeholder="Enter college name">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Key Skills (Comma separated) *</label>
+                                    <input type="text" id="skills" class="form-control" required
+                                        placeholder="e.g. HTML5, CSS3, Bootstrap, JavaScript, Python, SQL">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Full Address *</label>
+                                    <textarea id="address" class="form-control" rows="2" required
+                                        placeholder="Enter your permanent address"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Profile Photo Upload (JPG/PNG, Max 800KB)
+                                        *</label>
+                                    <input type="file" id="profilePhoto" class="form-control" accept=".jpg,.jpeg,.png"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Resume Upload (PDF Only, Max 1MB) *</label>
+                                    <input type="file" id="resumePdf" class="form-control" accept=".pdf" required>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 d-grid">
+                                <button type="submit" class="btn btn-navy btn-lg">Complete Student Registration</button>
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <span class="text-muted">Already have a student account?</span>
+                            <a href="student-login.html" class="fw-bold text-decoration-none ms-1">Login Here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        let uploadedPhotoData = null;
+        let uploadedResumeData = null;
+        const errorAlert = document.getElementById('errorAlert');
+
+        function showError(msg) {
+            errorAlert.textContent = msg;
+            errorAlert.classList.remove('d-none');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Validate Profile Photo immediately on change
+        document.getElementById('profilePhoto').addEventListener('change', function () {
+            errorAlert.classList.add('d-none');
+            validateAndReadFile(this, 'IMAGE', 800, function (err, fileObj) {
+                if (err) {
+                    uploadedPhotoData = null;
+                    showError(err);
+                } else {
+                    uploadedPhotoData = fileObj.dataUrl;
+                }
+            });
+        });
+
+        // Validate PDF Resume immediately on change
+        document.getElementById('resumePdf').addEventListener('change', function () {
+            errorAlert.classList.add('d-none');
+            validateAndReadFile(this, 'PDF', 1024, function (err, fileObj) {
+                if (err) {
+                    uploadedResumeData = null;
+                    showError(err);
+                } else {
+                    uploadedResumeData = fileObj;
+                }
+            });
+        });
+
+        // Handle Form Submission
+        document.getElementById('studentRegForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            errorAlert.classList.add('d-none');
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const email = document.getElementById('email').value.trim().toLowerCase();
+
+            if (password !== confirmPassword) {
+                showError("Password and Confirm Password do not match!");
+                return;
+            }
+
+            if (!uploadedPhotoData) {
+                showError("Please upload a valid JPG/PNG profile photo.");
+                return;
+            }
+
+            if (!uploadedResumeData) {
+                showError("Please upload a valid PDF resume.");
+                return;
+            }
+
+            const students = getData('cc_students');
+            if (students.some(s => s.email.toLowerCase() === email)) {
+                showError("An account with this email address already exists!");
+                return;
+            }
+
+            const newStudent = {
+                id: Date.now(),
+                fullName: document.getElementById('fullName').value.trim(),
+                email: email,
+                mobile: document.getElementById('mobile').value.trim(),
+                dob: document.getElementById('dob').value,
+                password: password,
+                gender: document.getElementById('gender').value,
+                qualification: document.getElementById('qualification').value.trim(),
+                college: document.getElementById('college').value.trim(),
+                skills: document.getElementById('skills').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                photo: uploadedPhotoData,
+                resumeName: uploadedResumeData.name,
+                resumeData: uploadedResumeData.dataUrl
+            };
+
+            students.push(newStudent);
+            saveData('cc_students', students);
+
+            alert("Registration successful! Please login with your email and password.");
+            window.location.href = "student-login.html";
+        });
+    </script>
+</body>
+
+</html>

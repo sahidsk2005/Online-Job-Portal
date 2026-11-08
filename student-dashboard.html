@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard – CareerConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-navy">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="index.html">CareerConnect <span
+                    class="badge bg-light text-dark ms-2 fs-6">Student Portal</span></a>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <span id="navWelcome" class="text-white small d-none d-md-inline"></span>
+                <button onclick="logoutStudent()" class="btn btn-danger btn-sm btn-rounded">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-3">
+                <div class="text-center mb-4">
+                    <img id="sidebarAvatar" src="" alt="Student Photo" class="avatar-preview mb-2">
+                    <h6 id="sidebarName" class="fw-bold mb-0"></h6>
+                    <small id="sidebarCourse" class="text-light opacity-75"></small>
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" onclick="switchTab('tab-browse', this)">Browse Jobs</a>
+                    <a class="nav-link" onclick="switchTab('tab-applications', this)">My Applications</a>
+                    <a class="nav-link" onclick="switchTab('tab-profile', this)">My Profile & Resume</a>
+                    <a class="nav-link text-warning mt-3" onclick="logoutStudent()">Logout</a>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9 col-lg-10 p-4">
+
+                <!-- Welcome Alert -->
+                <div class="card border-0 shadow-sm p-4 mb-4 bg-white">
+                    <h4 id="welcomeHeading" class="fw-bold mb-1 text-dark">Welcome!</h4>
+                    <p class="text-muted mb-0">Search verified job openings, apply with one click, and track your
+                        application status.</p>
+                </div>
+
+                <!-- TAB 1: BROWSE & SEARCH JOBS -->
+                <div id="tab-browse" class="dashboard-tab">
+                    <div class="card border-0 shadow-sm p-4 mb-4">
+                        <h5 class="fw-bold mb-3">Search & Filter Jobs</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" id="filterTitle" class="form-control"
+                                    placeholder="Search by Job Title or Skills..." oninput="renderStudentJobs()">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="filterLocation" class="form-control"
+                                    placeholder="Filter by Location (e.g. Kolkata)..." oninput="renderStudentJobs()">
+                            </div>
+                            <div class="col-md-4">
+                                <select id="filterCategory" class="form-select" onchange="renderStudentJobs()">
+                                    <option value="">All Categories</option>
+                                    <option value="IT & Software">IT & Software</option>
+                                    <option value="Data & Analytics">Data & Analytics</option>
+                                    <option value="Design & Creative">Design & Creative</option>
+                                    <option value="Marketing & Sales">Marketing & Sales</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="studentJobsList" class="row g-4"></div>
+                </div>
+
+                <!-- TAB 2: MY APPLICATIONS -->
+                <div id="tab-applications" class="dashboard-tab d-none">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h5 class="fw-bold mb-3">My Job Applications</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Location</th>
+                                        <th>Type</th>
+                                        <th>Applied On</th>
+                                        <th>Status</th>
+                                        <th>Offer Letter</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myApplicationsTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: PROFILE & RESUME UPDATE -->
+                <div id="tab-profile" class="dashboard-tab d-none">
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="card border-0 shadow-sm p-4">
+                                <h5 class="fw-bold mb-3">Student Profile Information</h5>
+                                <table class="table table-borderless mb-0">
+                                    <tbody id="profileDetailsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card border-0 shadow-sm p-4">
+                                <h5 class="fw-bold mb-3">Manage Resume & Photo</h5>
+                                <div class="mb-3 p-3 bg-light rounded">
+                                    <p class="small text-muted mb-1">Current Uploaded Resume:</p>
+                                    <strong id="currentResumeName" class="d-block mb-2"></strong>
+                                    <a id="downloadOwnResume" href="#" download=""
+                                        class="btn btn-outline-navy btn-sm">View / Download My Resume</a>
+                                </div>
+
+                                <hr>
+                                <div id="updateMsg" class="alert d-none"></div>
+
+                                <form id="updateFilesForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold small">Update Resume (PDF Only, Max
+                                            1MB)</label>
+                                        <input type="file" id="newResumeInput" class="form-control form-control-sm"
+                                            accept=".pdf">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold small">Update Profile Photo (JPG/PNG, Max
+                                            800KB)</label>
+                                        <input type="file" id="newPhotoInput" class="form-control form-control-sm"
+                                            accept=".jpg,.jpeg,.png">
+                                    </div>
+                                    <button type="submit" class="btn btn-navy btn-sm w-100">Save Updated Files</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // 1. Check Session Authentication
+        const currentStudentId = Number(sessionStorage.getItem('cc_current_student'));
+        if (!currentStudentId) {
+            window.location.href = "student-login.html";
+        }
+
+        function getCurrentStudent() {
+            const students = getData('cc_students');
+            return students.find(s => s.id === currentStudentId);
+        }
+
+        // 2. Load Student Profile Data into UI
+        function loadStudentUI() {
+            const student = getCurrentStudent();
+            if (!student) {
+                logoutStudent();
+                return;
+            }
+
+            document.getElementById('navWelcome').textContent = `Logged in as: ${student.fullName}`;
+            document.getElementById('welcomeHeading').textContent = `Welcome back, ${student.fullName}!`;
+            document.getElementById('sidebarName').textContent = student.fullName;
+            document.getElementById('sidebarCourse').textContent = `${student.qualification} - ${student.college}`;
+            document.getElementById('sidebarAvatar').src = student.photo;
+
+            document.getElementById('profileDetailsTable').innerHTML = `
+                <tr><th class="text-muted w-25">Full Name:</th><td>${escapeHTML(student.fullName)}</td></tr>
+                <tr><th class="text-muted">Email:</th><td>${escapeHTML(student.email)}</td></tr>
+                <tr><th class="text-muted">Mobile:</th><td>${escapeHTML(student.mobile)}</td></tr>
+                <tr><th class="text-muted">Gender & DOB:</th><td>${escapeHTML(student.gender)} | ${escapeHTML(student.dob)}</td></tr>
+                <tr><th class="text-muted">Qualification:</th><td>${escapeHTML(student.qualification)}</td></tr>
+                <tr><th class="text-muted">College Name:</th><td>${escapeHTML(student.college)}</td></tr>
+                <tr><th class="text-muted">Skills:</th><td><span class="badge bg-secondary">${escapeHTML(student.skills)}</span></td></tr>
+                <tr><th class="text-muted">Address:</th><td>${escapeHTML(student.address)}</td></tr>
+            `;
+
+            document.getElementById('currentResumeName').textContent = student.resumeName || "Resume.pdf";
+            const resumeLink = document.getElementById('downloadOwnResume');
+            resumeLink.href = student.resumeData;
+            resumeLink.setAttribute('download', student.resumeName || 'Student_Resume.pdf');
+        }
+
+        // 3. Render Jobs with Search & Category Filters
+        function renderStudentJobs() {
+            const jobs = getData('cc_jobs');
+            const applications = getData('cc_applications');
+
+            const titleFilter = document.getElementById('filterTitle').value.trim().toLowerCase();
+            const locFilter = document.getElementById('filterLocation').value.trim().toLowerCase();
+            const catFilter = document.getElementById('filterCategory').value;
+
+            const filtered = jobs.filter(j => {
+                const mTitle = j.title.toLowerCase().includes(titleFilter) || j.skills.toLowerCase().includes(titleFilter);
+                const mLoc = j.location.toLowerCase().includes(locFilter);
+                const mCat = catFilter === "" || j.category === catFilter;
+                return mTitle && mLoc && mCat;
+            });
+
+            const container = document.getElementById('studentJobsList');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-12"><div class="alert alert-light text-center">No matching jobs found.</div></div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(job => {
+                const alreadyApplied = applications.some(a => a.jobId === job.id && a.studentId === currentStudentId);
+                return `
+                    <div class="col-md-6">
+                        <div class="job-card p-4 h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="badge bg-primary">${escapeHTML(job.type)}</span>
+                                    <span class="small text-muted">Category: ${escapeHTML(job.category)}</span>
+                                </div>
+                                <h5 class="fw-bold mt-2 mb-1">${escapeHTML(job.title)}</h5>
+                                <p class="text-primary fw-semibold mb-2">${escapeHTML(job.companyName)} — ${escapeHTML(job.location)}</p>
+                                <p class="small text-muted mb-2">${escapeHTML(job.description)}</p>
+                                <p class="small mb-1"><strong>Required Skills:</strong> ${escapeHTML(job.skills)}</p>
+                                <p class="small mb-1"><strong>Qualification:</strong> ${escapeHTML(job.qualification)}</p>
+                                <p class="small mb-2"><strong>Salary:</strong> ${escapeHTML(job.salary)} | <strong>Deadline:</strong> ${escapeHTML(job.deadline)}</p>
+                            </div>
+                            <div class="pt-3 border-top text-end">
+                                ${alreadyApplied
+                        ? `<button class="btn btn-secondary btn-sm btn-rounded" disabled>&#10004; Applied</button>`
+                        : `<button onclick="applyForJob(${job.id})" class="btn btn-navy btn-sm">Apply Now</button>`
+                    }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 4. Apply for a Job
+        function applyForJob(jobId) {
+            const applications = getData('cc_applications');
+            if (applications.some(a => a.jobId === jobId && a.studentId === currentStudentId)) {
+                alert("You have already applied for this job.");
+                return;
+            }
+
+            applications.push({
+                id: Date.now(),
+                jobId: jobId,
+                studentId: currentStudentId,
+                appliedDate: new Date().toISOString().split('T')[0],
+                status: "Pending"
+            });
+
+            saveData('cc_applications', applications);
+            alert("Application submitted successfully! You can track status in 'My Applications'.");
+            renderStudentJobs();
+            renderMyApplications();
+        }
+
+        // 5. Render Student's Applications Table
+        function renderMyApplications() {
+            const applications = getData('cc_applications').filter(a => a.studentId === currentStudentId);
+            const jobs = getData('cc_jobs');
+            const recruiters = getData('cc_recruiters');
+            const tbody = document.getElementById('myApplicationsTable');
+
+            if (applications.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">You haven't applied to any jobs yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = applications.map(app => {
+                const job = jobs.find(j => j.id === app.jobId) || { title: "Deleted Job", companyName: "N/A", location: "N/A", type: "N/A" };
+                const recruiter = recruiters.find(r => job.recruiterId && r.id === job.recruiterId);
+                let badgeClass = "bg-warning text-dark";
+                if (app.status === "Accepted") badgeClass = "bg-success";
+                if (app.status === "Rejected") badgeClass = "bg-danger";
+
+                return `
+                    <tr>
+                        <td class="fw-semibold">${escapeHTML(job.title)}</td>
+                        <td>${escapeHTML(job.companyName)}</td>
+                        <td>${escapeHTML(job.location)}</td>
+                        <td>${escapeHTML(job.type)}</td>
+                        <td>${escapeHTML(app.appliedDate)}</td>
+                        <td><span class="badge ${badgeClass}">${escapeHTML(app.status)}</span></td>
+                        <td>${app.status === "Accepted"
+                        ? `<button type="button" class="btn btn-outline-success btn-sm" onclick="downloadOfferLetter(${app.id})">Download Offer Letter</button>`
+                        : `<span class="text-muted small">Available if accepted</span>`}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function downloadOfferLetter(appId) {
+            const application = getData('cc_applications').find(app =>
+                app.id === appId && app.studentId === currentStudentId && app.status === "Accepted"
+            );
+            if (!application) {
+                alert("This offer letter is only available for accepted applications.");
+                renderMyApplications();
+                return;
+            }
+
+            const student = getCurrentStudent();
+            const job = getData('cc_jobs').find(item => item.id === application.jobId);
+            if (!student || !job) {
+                alert("The student or job details for this offer could not be found.");
+                return;
+            }
+
+            const recruiter = getData('cc_recruiters').find(item =>
+                item.id === job.recruiterId
+            );
+            const acceptedDate = application.acceptedDate || application.appliedDate;
+            const displayDate = new Date(`${acceptedDate}T00:00:00`).toLocaleDateString();
+            const details = [
+                ["Position", job.title],
+                ["Employment type", job.type],
+                ["Location", job.location],
+                ["Compensation", job.salary]
+            ].map(([label, value]) => `
+                <tr>
+                    <th>${escapeHTML(label)}</th>
+                    <td>${escapeHTML(value || "As discussed")}</td>
+                </tr>
+            `).join("");
+            const companyName = escapeHTML(job.companyName);
+            const studentName = escapeHTML(student.fullName);
+            const recruiterName = escapeHTML(recruiter && recruiter.recruiterName || "Recruitment Team");
+            const recruiterEmail = escapeHTML(recruiter && recruiter.email || "");
+            const letter = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offer Letter - ${escapeHTML(job.title)}</title>
+    <style>
+        body { max-width: 760px; margin: 48px auto; padding: 0 32px; color: #202b3c; font: 16px/1.6 Arial, sans-serif; }
+        header { border-bottom: 3px solid #142b4a; margin-bottom: 32px; padding-bottom: 16px; }
+        h1 { color: #142b4a; margin: 0; }
+        table { border-collapse: collapse; margin: 24px 0; width: 100%; }
+        th, td { border: 1px solid #d8dee8; padding: 10px 12px; text-align: left; }
+        th { background: #f3f6fa; width: 35%; }
+        .date { color: #596579; }
+        @media print { body { margin: 20mm auto; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>${companyName}</h1>
+        <div>Offer of Employment</div>
+    </header>
+    <p class="date">${escapeHTML(displayDate)}</p>
+    <p>Dear ${studentName},</p>
+    <p>We are pleased to offer you the position listed below at ${companyName}. Your application has been accepted. We look forward to welcoming you to the team.</p>
+    <table><tbody>${details}</tbody></table>
+    <p>Please contact us if you have questions or need to discuss any arrangements related to this offer.</p>
+    <p>Sincerely,<br>${recruiterName}<br>${companyName}${recruiterEmail ? `<br>${recruiterEmail}` : ""}</p>
+</body>
+</html>`;
+            const fileName = `Offer_Letter_${student.fullName}_${job.title}`
+                .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
+                .replace(/\s+/g, "_") + ".html";
+            const file = new Blob([letter], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(file);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        window.addEventListener("storage", event => {
+            if (event.key === "cc_applications") {
+                renderMyApplications();
+                renderStudentJobs();
+            }
+        });
+
+        // 6. Resume and Photo Update Handler
+        document.getElementById('updateFilesForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const resumeInput = document.getElementById('newResumeInput');
+            const photoInput = document.getElementById('newPhotoInput');
+            const msgBox = document.getElementById('updateMsg');
+
+            if (!resumeInput.files[0] && !photoInput.files[0]) {
+                msgBox.className = "alert alert-warning";
+                msgBox.textContent = "Please select a new PDF resume or photo to update.";
+                return;
+            }
+
+            const students = getData('cc_students');
+            const idx = students.findIndex(s => s.id === currentStudentId);
+
+            // Process Resume if selected
+            const processPhotoNext = () => {
+                if (photoInput.files[0]) {
+                    validateAndReadFile(photoInput, 'IMAGE', 800, function (err, fileObj) {
+                        if (err) {
+                            msgBox.className = "alert alert-danger";
+                            msgBox.textContent = err;
+                            return;
+                        }
+                        students[idx].photo = fileObj.dataUrl;
+                        saveData('cc_students', students);
+                        loadStudentUI();
+                        msgBox.className = "alert alert-success";
+                        msgBox.textContent = "Profile updated successfully!";
+                        photoInput.value = "";
+                    });
+                } else {
+                    saveData('cc_students', students);
+                    loadStudentUI();
+                    msgBox.className = "alert alert-success";
+                    msgBox.textContent = "Resume updated successfully!";
+                }
+            };
+
+            if (resumeInput.files[0]) {
+                validateAndReadFile(resumeInput, 'PDF', 1024, function (err, fileObj) {
+                    if (err) {
+                        msgBox.className = "alert alert-danger";
+                        msgBox.textContent = err;
+                        return;
+                    }
+                    students[idx].resumeName = fileObj.name;
+                    students[idx].resumeData = fileObj.dataUrl;
+                    resumeInput.value = "";
+                    processPhotoNext();
+                });
+            } else {
+                processPhotoNext();
+            }
+        });
+
+        // 7. Sidebar Tab Switching
+        function switchTab(tabId, linkEl) {
+            document.querySelectorAll('.dashboard-tab').forEach(t => t.classList.add('d-none'));
+            document.getElementById(tabId).classList.remove('d-none');
+            document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+            linkEl.classList.add('active');
+        }
+
+        function logoutStudent() {
+            sessionStorage.removeItem('cc_current_student');
+            window.location.href = "student-login.html";
+        }
+
+        // Initialize Student Dashboard
+        loadStudentUI();
+        renderStudentJobs();
+        renderMyApplications();
+    </script>
+</body>
+
+</html>

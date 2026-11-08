@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerConnect – Online Job Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVIGATION BAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-navy sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span class="bg-white text-dark rounded-circle px-2 py-1 me-2 fw-bold">CC</span>
+                CareerConnect
+            </a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#browse-jobs">Browse Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about-us">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact-us">Contact Us</a></li>
+                </ul>
+                <div class="d-flex gap-2 mt-2 mt-lg-0">
+                    <a href="student-login.html" class="btn btn-outline-light btn-rounded btn-sm">Student Login</a>
+                    <a href="recruiter-login.html" class="btn btn-light text-dark btn-rounded btn-sm">Recruiter
+                        Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-3">Find Your Dream Job Today</h1>
+            <p class="lead mb-4 opacity-75">Connect directly with verified recruiters and launch your career with
+                CareerConnect.</p>
+
+            <!-- Job Search Bar -->
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="search-box-card">
+                        <form id="homeSearchForm" class="row g-2 align-items-center">
+                            <div class="col-md-5">
+                                <input type="text" id="searchTitle" class="form-control form-control-lg"
+                                    placeholder="Job title, skills, or company...">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="searchLocation" class="form-control form-control-lg"
+                                    placeholder="City or Location (e.g. Kolkata)">
+                            </div>
+                            <div class="col-md-3 d-grid">
+                                <button type="submit" class="btn btn-navy btn-lg">Search Jobs</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= TWO PORTAL OPTIONS ================= -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Student Portal Card -->
+                <div class="col-md-6">
+                    <div class="card portal-choice-card h-100 p-4">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">FOR STUDENTS & FRESHERS</span>
+                            <h3 class="fw-bold mb-3">Find a Job – Student Portal</h3>
+                            <p class="text-muted">Create your student profile, upload your PDF resume, browse verified
+                                internships and full-time jobs, and track your application status in real time.</p>
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <a href="student-register.html" class="btn btn-navy">Register as Student</a>
+                                <a href="student-login.html" class="btn btn-outline-navy">Student Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recruiter Portal Card -->
+                <div class="col-md-6">
+                    <div class="card portal-choice-card h-100 p-4">
+                        <div class="card-body">
+                            <span class="badge bg-dark mb-2">FOR EMPLOYERS & HR</span>
+                            <h3 class="fw-bold mb-3">Hire Candidates – Recruiter Portal</h3>
+                            <p class="text-muted">Register your company, post new job openings in minutes, review
+                                student profiles, download PDF resumes, and shortlist top talent easily.</p>
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                <a href="recruiter-register.html" class="btn btn-navy">Register as Recruiter</a>
+                                <a href="recruiter-login.html" class="btn btn-outline-navy">Recruiter Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BROWSE / FEATURED JOBS SECTION ================= -->
+    <section id="browse-jobs" class="py-5 bg-white border-top border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">Featured & Latest Job Listings</h2>
+                    <p class="text-muted mb-0">Explore all active openings posted by verified companies</p>
+                </div>
+                <button id="resetSearchBtn" class="btn btn-outline-secondary btn-sm btn-rounded d-none">Show All
+                    Jobs</button>
+            </div>
+
+            <!-- Dynamic Jobs Container -->
+            <div id="featuredJobsList" class="row g-4">
+                <!-- Populated by JavaScript below -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS SECTION ================= -->
+    <section id="how-it-works" class="py-5">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-2">How CareerConnect Works</h2>
+            <p class="text-muted mb-5">Three simple steps to start your career journey</p>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm p-4">
+                        <div class="display-6 fw-bold text-primary mb-2">1</div>
+                        <h5 class="fw-bold">Create Your Account</h5>
+                        <p class="text-muted small mb-0">Sign up as a Student or Recruiter with your basic details,
+                            profile image, and PDF resume.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm p-4">
+                        <div class="display-6 fw-bold text-primary mb-2">2</div>
+                        <h5 class="fw-bold">Search or Post Jobs</h5>
+                        <p class="text-muted small mb-0">Students filter jobs by title, location, and category while
+                            recruiters publish openings.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm p-4">
+                        <div class="display-6 fw-bold text-primary mb-2">3</div>
+                        <h5 class="fw-bold">Apply & Get Hired</h5>
+                        <p class="text-muted small mb-0">Apply with one click and track whether your application is
+                            Pending, Accepted, or Rejected.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= ABOUT US & CONTACT US ================= -->
+    <section id="about-us" class="py-5 bg-white border-top">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-md-6">
+                    <h3 class="fw-bold mb-3">About CareerConnect</h3>
+                    <p class="text-muted">CareerConnect is a dedicated online job portal created as a BCA Internet and
+                        Web Technology project. Our mission is to bridge the gap between talented college students
+                        looking for internships or entry-level jobs and companies seeking skilled freshers.</p>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2">&#10004; Dedicated Student & Recruiter Dashboards</li>
+                        <li class="mb-2">&#10004; Direct PDF Resume Uploads & Downloads</li>
+                        <li class="mb-2">&#10004; Transparent Real-time Application Status</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6" id="contact-us">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h4 class="fw-bold mb-3">Contact Us</h4>
+                        <div id="contactSuccess" class="alert alert-success d-none">Thank you! Your message has been
+                            received.</div>
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label class="form-label">Your Name</label>
+                                <input type="text" class="form-control" required placeholder="Enter your name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" required placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" rows="3" required
+                                    placeholder="How can we help you?"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-navy w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer-navy py-4">
+        <div class="container">
+            <div class="row gy-3 align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h5 class="text-white fw-bold mb-1">CareerConnect – Online Job Portal</h5>
+                    <p class="small mb-0">Email: support@careerconnect.edu | Phone: +91 98765 43210 | Kolkata, India</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="index.html" class="me-3 small">Home</a>
+                    <a href="student-login.html" class="me-3 small">Student Portal</a>
+                    <a href="recruiter-login.html" class="me-3 small">Recruiter Portal</a>
+                    <a href="https://linkedin.com" target="_blank" class="me-3 small">LinkedIn</a>
+                    <a href="https://github.com" target="_blank" class="small">GitHub</a>
+                    <div class="small mt-1">&copy; 2026 CareerConnect BCA Semester Project. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS & App JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Render Jobs on Homepage
+        function renderHomeJobs(titleQuery = "", locQuery = "") {
+            const jobs = getData('cc_jobs');
+            const container = document.getElementById('featuredJobsList');
+            const resetBtn = document.getElementById('resetSearchBtn');
+
+            const filtered = jobs.filter(job => {
+                const matchTitle = job.title.toLowerCase().includes(titleQuery.toLowerCase()) ||
+                    job.skills.toLowerCase().includes(titleQuery.toLowerCase()) ||
+                    job.companyName.toLowerCase().includes(titleQuery.toLowerCase());
+                const matchLoc = job.location.toLowerCase().includes(locQuery.toLowerCase());
+                return matchTitle && matchLoc;
+            });
+
+            if (titleQuery || locQuery) {
+                resetBtn.classList.remove('d-none');
+            } else {
+                resetBtn.classList.add('d-none');
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-4">
+                        <p class="text-muted mb-0">No jobs found matching your search criteria.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(job => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="job-card p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary">${escapeHTML(job.type)}</span>
+                                <span class="text-muted small">Deadline: ${escapeHTML(job.deadline)}</span>
+                            </div>
+                            <h5 class="fw-bold mb-1">${escapeHTML(job.title)}</h5>
+                            <p class="text-primary fw-semibold mb-2">${escapeHTML(job.companyName)}</p>
+                            <p class="small text-muted mb-2">
+                                <strong>Location:</strong> ${escapeHTML(job.location)} | 
+                                <strong>Category:</strong> ${escapeHTML(job.category)}
+                            </p>
+                            <p class="small text-muted mb-2"><strong>Salary:</strong> ${escapeHTML(job.salary)}</p>
+                            <p class="small text-muted mb-3"><strong>Skills:</strong> ${escapeHTML(job.skills)}</p>
+                        </div>
+                        <div class="pt-2 border-top d-flex justify-content-between align-items-center">
+                            <span class="small text-muted">${escapeHTML(job.qualification)}</span>
+                            <button onclick="applyFromHome(${job.id})" class="btn btn-navy btn-sm">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Redirect Student to Dashboard or Login when clicking Apply Now on Homepage
+        function applyFromHome(jobId) {
+            const loggedStudent = sessionStorage.getItem('cc_current_student');
+            if (loggedStudent) {
+                window.location.href = "student-dashboard.html";
+            } else {
+                alert("Please login as a Student to apply for this job.");
+                window.location.href = "student-login.html";
+            }
+        }
+
+        // Search Form Event Listener
+        document.getElementById('homeSearchForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const title = document.getElementById('searchTitle').value.trim();
+            const loc = document.getElementById('searchLocation').value.trim();
+            renderHomeJobs(title, loc);
+            document.getElementById('browse-jobs').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('resetSearchBtn').addEventListener('click', function () {
+            document.getElementById('searchTitle').value = "";
+            document.getElementById('searchLocation').value = "";
+            renderHomeJobs();
+        });
+
+        // Contact Form Handler
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('contactSuccess').classList.remove('d-none');
+            this.reset();
+        });
+
+        // Initial render
+        renderHomeJobs();
+    </script>
+</body>
+
+</html>

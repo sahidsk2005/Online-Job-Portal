@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Registration – CareerConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-navy">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">CareerConnect</a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-outline-light btn-sm btn-rounded me-2">Home</a>
+                <a href="recruiter-login.html" class="btn btn-light btn-sm btn-rounded">Recruiter Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Recruiter Registration Form -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card auth-card">
+                    <div class="auth-header">
+                        <h3 class="fw-bold mb-1">Recruiter / Employer Registration</h3>
+                        <p class="small mb-0 opacity-75">Register your company to post jobs and hire talented students
+                        </p>
+                    </div>
+                    <div class="card-body p-4 p-md-5 bg-white">
+                        <div id="recError" class="alert alert-danger d-none"></div>
+
+                        <form id="recruiterRegForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Recruiter Full Name *</label>
+                                    <input type="text" id="recruiterName" class="form-control" required
+                                        placeholder="Enter your name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Company Name *</label>
+                                    <input type="text" id="companyName" class="form-control" required
+                                        placeholder="e.g. TechNova Solutions">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Official Email Address *</label>
+                                    <input type="email" id="email" class="form-control" required
+                                        placeholder="hr@company.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Mobile Number (10 digits) *</label>
+                                    <input type="tel" id="mobile" class="form-control" pattern="[0-9]{10}" required
+                                        placeholder="9876543210">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Password *</label>
+                                    <div class="input-group">
+                                        <input type="password" id="password" class="form-control" minlength="6" required
+                                            placeholder="Min 6 characters">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="togglePassword('password', this)">Show</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Confirm Password *</label>
+                                    <div class="input-group">
+                                        <input type="password" id="confirmPassword" class="form-control" minlength="6"
+                                            required placeholder="Re-enter password">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="togglePassword('confirmPassword', this)">Show</button>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Company Logo Upload (JPG/PNG, Max 800KB)
+                                        *</label>
+                                    <input type="file" id="companyLogo" class="form-control" accept=".jpg,.jpeg,.png"
+                                        required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Company Address *</label>
+                                    <textarea id="address" class="form-control" rows="2" required
+                                        placeholder="Enter complete office address"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 d-grid">
+                                <button type="submit" class="btn btn-navy btn-lg">Register Company Account</button>
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <span class="text-muted">Already registered as a Recruiter?</span>
+                            <a href="recruiter-login.html" class="fw-bold text-decoration-none ms-1">Login Here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        let uploadedLogoData = null;
+        const recError = document.getElementById('recError');
+
+        function showRecError(msg) {
+            recError.textContent = msg;
+            recError.classList.remove('d-none');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('companyLogo').addEventListener('change', function () {
+            recError.classList.add('d-none');
+            validateAndReadFile(this, 'IMAGE', 800, function (err, fileObj) {
+                if (err) {
+                    uploadedLogoData = null;
+                    showRecError(err);
+                } else {
+                    uploadedLogoData = fileObj.dataUrl;
+                }
+            });
+        });
+
+        document.getElementById('recruiterRegForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            recError.classList.add('d-none');
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const email = document.getElementById('email').value.trim().toLowerCase();
+
+            if (password !== confirmPassword) {
+                showRecError("Passwords do not match!");
+                return;
+            }
+
+            if (!uploadedLogoData) {
+                showRecError("Please upload a valid JPG/PNG company logo.");
+                return;
+            }
+
+            const recruiters = getData('cc_recruiters');
+            if (recruiters.some(r => r.email.toLowerCase() === email)) {
+                showRecError("A recruiter account with this email already exists!");
+                return;
+            }
+
+            const newRecruiter = {
+                id: Date.now(),
+                recruiterName: document.getElementById('recruiterName').value.trim(),
+                companyName: document.getElementById('companyName').value.trim(),
+                email: email,
+                mobile: document.getElementById('mobile').value.trim(),
+                password: password,
+                logo: uploadedLogoData,
+                address: document.getElementById('address').value.trim()
+            };
+
+            recruiters.push(newRecruiter);
+            saveData('cc_recruiters', recruiters);
+
+            alert("Recruiter registration successful! Please login.");
+            window.location.href = "recruiter-login.html";
+        });
+    </script>
+</body>
+
+</html>
