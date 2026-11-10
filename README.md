@@ -1,4 +1,4 @@
-# CareerConnect – Online Job Portal
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/dbaafcf1-4805-425d-9dee-f049e9ee7762" /># CareerConnect – Online Job Portal
 
 <p align="center">
   <strong>A student–recruiter job portal built as a college semester project</strong>
@@ -134,19 +134,32 @@ Add screenshots of your actual running project to a folder named `screenshots/`,
 
 ```text
 screenshots/
-├── home-page.png
-├── student-login.png
-├── student-dashboard.png
-├── recruiter-login.png
-└── recruiter-dashboard.png
+├── home-page
+<img width="1887" height="914" alt="Screenshot (596)" src="https://github.com/user-attachments/assets/4cda8b48-13f2-4661-88fc-f75bc8b5d46c" />
+
+├── student-login
+<img width="1920" height="913" alt="Screenshot (597)" src="https://github.com/user-attachments/assets/73b9ca78-3e1f-4094-8074-649c3af08b60" />
+
+├── student-dashboard
+<img width="1920" height="961" alt="Screenshot (598)" src="https://github.com/user-attachments/assets/d3b2ce6a-7396-4555-bd07-19a440cd6027" />
+
+├── student-dashboard-applications
+<img width="1920" height="960" alt="Screenshot (599)" src="https://github.com/user-attachments/assets/a84e22a2-c7aa-4304-90de-303f6bf5a528" />
+
+├── student-offer-letter
+<img width="1920" height="957" alt="Screenshot (600)" src="https://github.com/user-attachments/assets/6ae51ef0-2cbc-4bd2-bd0c-eaadcb148961" />
+
+├── recruiter-login
+<img width="1920" height="960" alt="Screenshot (601)" src="https://github.com/user-attachments/assets/9024a06a-d018-471f-bdd7-a88e0f69a5ac" />
+
+├── recruiter-dashboard-posted-jobs
+<img width="1920" height="963" alt="Screenshot (602)" src="https://github.com/user-attachments/assets/e4b8301b-c7d9-405d-abdf-234e2ab0b60e" />
+
+└── recruiter-dashboard-applicants
+<img width="1920" height="967" alt="Screenshot (603)" src="https://github.com/user-attachments/assets/ea0bea54-c227-4d17-bdad-4986747fef73" />
+
+
 ```
-
-Example Markdown image:
-
-```markdown
-![CareerConnect Home Page](screenshots/home-page.png)
-```
-
 ## 🎓 Project Purpose
 
 CareerConnect was developed as a college semester project to practise the fundamentals of front-end web development, including:
