@@ -132,7 +132,6 @@ For a real multi-user job portal, the next development step would be to add a ba
 
 ## 🖼️ Screenshots
 
-Add screenshots of your actual running project to a folder named `screenshots/`, then use these suggested filenames:
 
 screenshots/
 
