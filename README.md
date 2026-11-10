@@ -1,4 +1,6 @@
-# CareerConnect – Online Job Portal
+<h2 align="center">
+  <strong> # CareerConnect – Online Job Portal
+</h2>
 
 <p align="center">
   <strong>A student–recruiter job portal built as a college semester project</strong>
