@@ -134,7 +134,6 @@ For a real multi-user job portal, the next development step would be to add a ba
 
 Add screenshots of your actual running project to a folder named `screenshots/`, then use these suggested filenames:
 
-```text
 screenshots/
 ├── home-page
 <img width="1887" height="914" alt="Screenshot (596)" src="https://github.com/user-attachments/assets/4cda8b48-13f2-4661-88fc-f75bc8b5d46c" />
@@ -161,7 +160,6 @@ screenshots/
 <img width="1920" height="967" alt="Screenshot (603)" src="https://github.com/user-attachments/assets/ea0bea54-c227-4d17-bdad-4986747fef73" />
 
 
-```
 ## 🎓 Project Purpose
 
 CareerConnect was developed as a college semester project to practise the fundamentals of front-end web development, including:
