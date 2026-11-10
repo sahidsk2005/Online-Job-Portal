@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/dbaafcf1-4805-425d-9dee-f049e9ee7762" /># CareerConnect – Online Job Portal
+# CareerConnect – Online Job Portal
 
 <p align="center">
   <strong>A student–recruiter job portal built as a college semester project</strong>
