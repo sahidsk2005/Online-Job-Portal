@@ -184,7 +184,7 @@ CareerConnect was developed as a college semester project to practise the fundam
 
 ## 👨‍💻 Developer
 
-**Sahid SK**
+**Sahid SK** <br>
 **Prantika Ghosh**
 
 - GitHub: [@sahidsk2005](https://github.com/sahidsk2005)
